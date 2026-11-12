@@ -22,14 +22,17 @@ in-app update service for these packages; install a newer release manually.
 
 ## Automation
 
-The [build workflow](.github/workflows/build-and-release.yml) checks the
-upstream `windows` branch every Sunday. If its commit has not been released,
-the workflow builds `ghostty.dll`, publishes the WinUI app as self-contained
+The [build workflow](.github/workflows/build-and-release.yml) runs manually
+with a source branch, tag, or commit (default: `windows`). Scheduled runs are
+disabled. If the selected commit has not been released, the workflow builds
+`ghostty.dll`, publishes the WinUI app as self-contained
 NativeAOT, creates both packages, and publishes a GitHub prerelease. Each tag
 is keyed to the upstream source commit, so repeated checks do not publish
-duplicates. You can also run the workflow manually with a source branch, tag,
-or commit. Turn off **publish_release** to keep the output as a workflow
+duplicates. Turn off **publish_release** to keep the output as a workflow
 artifact only.
+
+To test the fix for upstream issue #1451, set **source_ref** to
+`d3421ecadd4a25d978d74b34fee4f6123e98bede` when running the workflow.
 
 The workflow uses Zig 0.16.0, .NET SDK 10.0.401, a Windows runner with Visual
 Studio 2026, and Inno Setup 6. It first builds with the committed NuGet lock
